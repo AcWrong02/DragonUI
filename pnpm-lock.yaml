@@ -52,6 +52,9 @@ devDependencies:
   postcss-for:
     specifier: ^2.1.1
     version: registry.npmmirror.com/postcss-for@2.1.1
+  postcss-nested:
+    specifier: ^6.0.1
+    version: registry.npmmirror.com/postcss-nested@6.0.1(postcss@8.4.33)
   typescript:
     specifier: ~5.3.0
     version: registry.npmmirror.com/typescript@5.3.3
@@ -2185,6 +2188,19 @@ packages:
     resolution: {integrity: sha512-tPLZzVAiIJp46TBbpXtrUAKqedXSyW5xDEo1sikrfEfnTs+49SBZR/xDdqCiJvSSbtr615xDsaMF3RrxS2jZlA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-message-helpers/-/postcss-message-helpers-2.0.0.tgz}
     name: postcss-message-helpers
     version: 2.0.0
+    dev: true
+
+  registry.npmmirror.com/postcss-nested@6.0.1(postcss@8.4.33):
+    resolution: {integrity: sha512-mEp4xPMi5bSWiMbsgoPfcP74lsWLHkQbZc3sY+jWYd65CUwXrUaTp0fmNpa01ZcETKlIgUdFN/MpS2xZtqL9dQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-nested/-/postcss-nested-6.0.1.tgz}
+    id: registry.npmmirror.com/postcss-nested/6.0.1
+    name: postcss-nested
+    version: 6.0.1
+    engines: {node: '>=12.0'}
+    peerDependencies:
+      postcss: ^8.2.14
+    dependencies:
+      postcss: registry.npmmirror.com/postcss@8.4.33
+      postcss-selector-parser: registry.npmmirror.com/postcss-selector-parser@6.0.15
     dev: true
 
   registry.npmmirror.com/postcss-selector-parser@6.0.15:
