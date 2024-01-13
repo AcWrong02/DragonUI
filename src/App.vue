@@ -40,14 +40,31 @@
     <Button type="success" plain disabled>B</Button>
     <Button type="warning" plain disabled>B</Button>
   </div>
+  <h1>Collapse折叠面板</h1>
+  <div>
+    <Collapse v-model="activeNames">
+      <CollapseItem name="1">
+        <template #title> title 1 </template>
+        <div>content 1</div>
+      </CollapseItem>
+      <CollapseItem name="2">
+        <template #title> title 2 </template>
+        <template #default> content 2 </template>
+      </CollapseItem>
+      <CollapseItem name="3" disabled>
+        <template #title> title 3 </template>
+        <template #default> content 3 </template>
+      </CollapseItem>
+    </Collapse>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import Button from "./components/Button/Button.vue";
+import Collapse from "./components/Collapse/Collapse.vue";
+import CollapseItem from "./components/Collapse/CollapseItem.vue";
+const activeNames = ref(["1"]);
 </script>
 
-<style>
-div{
-  margin: 10px;
-}
-</style>
+<style></style>
