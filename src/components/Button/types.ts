@@ -12,4 +12,6 @@ export interface ButtonProps {
   disabled?: boolean;
   nativeType?: NativeType;
   autofocus?: boolean;
+  icon?:string;
+  loading?:boolean;
 }

@@ -7,11 +7,14 @@
       'is-round': round,
       'is-circle': circle,
       'is-disabled': disabled,
+      'is-loading':loading
     }"
-    :disabled="disabled"
+    :disabled="disabled || loading"
     :autofocus="autofocus"
     :type="nativeType"
   >
+    <Icon icon="spinner" spin v-if="loading"></Icon>
+    <Icon :icon="icon" v-if="!loading && icon"></Icon>
     <span>
       <slot />
     </span>
@@ -20,6 +23,7 @@
 
 <script setup lang="ts">
 import type { ButtonProps } from "./types";
+import Icon from '../Icon/Icon.vue'
 defineOptions({
   name:'DragonButton'
 })

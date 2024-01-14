@@ -7,6 +7,8 @@
     <Button type="danger">Danger Button</Button>
     <Button type="success">Success Button</Button>
     <Button type="warning">Warning Button</Button>
+    <Button type="warning" loading>Loading Button</Button>
+    <Button type="warning" icon="arrow-up" loading>Icon Button</Button>
   </div>
   <div>
     <Button plain>Default Botton</Button>

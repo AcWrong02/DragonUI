@@ -82,6 +82,7 @@
       background-color: var(--dra-button-disabled-bg-color);
       border-color: var(--dra-button-disabled-border-color);
     }
+    /* 当有图标的时候，图标和文字直接添加一定的间距 */
     [class*=dra-icon] + span {
       margin-left: 6px;
     }
