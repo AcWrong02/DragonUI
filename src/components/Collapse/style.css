@@ -33,13 +33,13 @@
   }
   &.is-active {
     border-bottom-color: transparent;
-    /* .header-angle {
+    .header-angle {
       transform: rotate(90deg);
-    } */
+    }
   }
-  /* .header-angle {
+  .header-angle {
     transition: transform var(--dra-transition-duration);
-  } */
+  }
 }
 .dra-collapse-item__content {
   will-change: height;
