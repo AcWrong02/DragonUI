@@ -57,6 +57,7 @@
       </CollapseItem>
     </Collapse>
   </div>
+  <Icon icon="arrow-up"></Icon>
 </template>
 
 <script setup lang="ts">
@@ -64,6 +65,7 @@ import { ref } from "vue";
 import Button from "./components/Button/Button.vue";
 import Collapse from "./components/Collapse/Collapse.vue";
 import CollapseItem from "./components/Collapse/CollapseItem.vue";
+import Icon from "./components/Icon/Icon.vue";
 const activeNames = ref(["1"]);
 </script>
 
