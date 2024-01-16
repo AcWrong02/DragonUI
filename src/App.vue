@@ -59,6 +59,23 @@
       </CollapseItem>
     </Collapse>
   </div>
+  <h1>Collapse折叠面板——手风琴模式</h1>
+  <div>
+    <Collapse v-model="activeNames" accordion>
+      <CollapseItem name="1">
+        <template #title> title 1 </template>
+        <div>content 1</div>
+      </CollapseItem>
+      <CollapseItem name="2">
+        <template #title> title 2 </template>
+        <template #default> content 2 </template>
+      </CollapseItem>
+      <CollapseItem name="3">
+        <template #title> title 3 </template>
+        <template #default> content 3 </template>
+      </CollapseItem>
+    </Collapse>
+  </div>
   <Icon icon="arrow-up"></Icon>
 </template>
 

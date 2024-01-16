@@ -30,12 +30,14 @@
 import { inject, computed } from "vue";
 import type { CollapseItemProps } from "./types";
 import { collapseContextKey } from "./types";
-import Icon from '../Icon/Icon.vue'
+import Icon from "../Icon/Icon.vue";
 defineOptions({
   name: "DraCollapseItem",
 });
+
 const props = defineProps<CollapseItemProps>();
 const collapseContext = inject(collapseContextKey);
+
 const isActive = computed(() =>
   collapseContext?.activeNames.value.includes(props.name)
 );
@@ -51,7 +53,6 @@ const transitionEvents: Record<string, (el: HTMLElement) => void> = {
     el.style.overflow = "hidden";
   },
   enter(el) {
-    console.log('el--',el.scrollHeight)
     el.style.height = `${el.scrollHeight}px`;
   },
   afterEnter(el) {
@@ -70,4 +71,8 @@ const transitionEvents: Record<string, (el: HTMLElement) => void> = {
     el.style.overflow = "";
   },
 };
+
+defineExpose({
+  isActive
+})
 </script>
