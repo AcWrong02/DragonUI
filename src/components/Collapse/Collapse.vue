@@ -7,7 +7,6 @@
 import { ref, provide, watch } from "vue";
 import type { NameType, CollapseProps, CollapseEmits } from "./types";
 import { collapseContextKey } from "./types";
-import { emit } from "process";
 defineOptions({
   name: "DraCollapse",
 });
@@ -19,15 +18,11 @@ const activeNames = ref<NameType[]>(props.modelValue);
 
 watch(
   () => props.modelValue,
-  (value, oldValue) => {
-    console.log(value, oldValue)
-    value = Array.isArray(value) ? value : [value]
-    activeNames.value = props.modelValue;
-    if (value !== oldValue && oldValue) {
-      emits("change", value);
-    }
+  (value, oldValue ) => {
+    activeNames.value = props.modelValue 
+    if(value !== oldValue && oldValue)emits('change', value)
   },
-  {deep:true}
+  { deep: true }
 );
 
 if (props.accordion && activeNames.value.length > 1) {

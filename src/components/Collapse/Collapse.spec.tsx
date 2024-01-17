@@ -110,23 +110,28 @@ describe("Collapse", () => {
     expect(collapseItemWrappers[0].vm.isActive).toBe(true);
     expect(vm.activeNames).toEqual(["1"]);
     expect(onChange).not.toHaveBeenCalled();
+    
     collapseItemHeaderEls[2].click();
     await nextTick();
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(collapseItemWrappers[0].vm.isActive).toBe(true);
     expect(collapseItemWrappers[2].vm.isActive).toBe(true);
     expect(vm.activeNames).toEqual(["1", "3"]);
+    console.log('vm.activeNames---',activeNames.value, vm.activeNames)
+
+    activeNames.value.push("4");
+    await nextTick();
+    console.log('vm.activeNames---', activeNames.value,vm.activeNames)
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(vm.activeNames).toEqual(["1", "3", "4"]);
+    
     collapseItemHeaderEls[0].click();
     await nextTick();
-    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenCalledTimes(3);
     expect(collapseItemWrappers[0].vm.isActive).toBe(false);
-    expect(vm.activeNames).toEqual(["3"]);
+    expect(vm.activeNames).toEqual(["3", "4"]);
 
     activeNames.value = ["1", "3"];
-    await nextTick();
-    expect(onChange).toHaveBeenCalledTimes(3);
-
-    activeNames.value.push('4')
     await nextTick();
     expect(onChange).toHaveBeenCalledTimes(4);
   });
@@ -149,7 +154,7 @@ describe("Collapse", () => {
         </CollapseItem>
       </Collapse>
     ));
-    activeNames.value.push('2')
+    activeNames.value.push("2");
     await nextTick();
     const collapseWrapper = wrapper.findComponent(Collapse);
     const collapseItemWrappers =

@@ -59,9 +59,9 @@
       </CollapseItem>
     </Collapse>
   </div>
-  <h1>Collapse折叠面板——手风琴模式</h1>
+  <h1>Collapse折叠面板——</h1>
   <div>
-    <Collapse v-model="activeNames" accordion>
+    <Collapse v-model="activeNames1" @change="change">
       <CollapseItem name="1">
         <template #title> title 1 </template>
         <div>content 1</div>
@@ -75,17 +75,38 @@
         <template #default> content 3 </template>
       </CollapseItem>
     </Collapse>
+    <button @click="click">click</button>
   </div>
-  <Icon icon="arrow-up"></Icon>
+  <button @click="handleClick">click</button>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Button from "./components/Button/Button.vue";
 import Collapse from "./components/Collapse/Collapse.vue";
 import CollapseItem from "./components/Collapse/CollapseItem.vue";
 import Icon from "./components/Icon/Icon.vue";
 const activeNames = ref(["1"]);
+const activeNames1 = ref(["1"]);
+const click = () => {
+  activeNames1.value.push("2");
+};
+const change = (value)=>{
+  console.log("change---",value)
+}
+
+const handleClick = () => {
+  activeNames1.value = ['1','2']
+};
+
+const value = ref(["1"]);
+watch(
+  () => value.value,
+  (value, oldValue) => {
+    console.log(value === oldValue);
+  },
+  { deep: true }
+);
 </script>
 
 <style></style>
