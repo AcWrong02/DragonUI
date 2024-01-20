@@ -78,6 +78,10 @@
     <button @click="click">click</button>
   </div>
   <button @click="handleClick">click</button>
+  <h1>下拉菜单</h1>
+  <DropDown>
+    哈哈哈哈哈
+  </DropDown>
 </template>
 
 <script setup lang="ts">
@@ -85,7 +89,7 @@ import { ref, watch } from "vue";
 import Button from "./components/Button/Button.vue";
 import Collapse from "./components/Collapse/Collapse.vue";
 import CollapseItem from "./components/Collapse/CollapseItem.vue";
-import Icon from "./components/Icon/Icon.vue";
+import DropDown from "./components/DropDown/DropDown.vue";
 const activeNames = ref(["1"]);
 const activeNames1 = ref(["1"]);
 const click = () => {
