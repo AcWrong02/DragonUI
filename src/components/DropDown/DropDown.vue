@@ -2,9 +2,9 @@
   <div class="dra-dropdown" style="display: inline-flex;">
     <ToolTip :placement="placement">
       <template #content>
-        <slot></slot>  
+        <slot name="dropdown"></slot>  
       </template>
-      <button>哈哈哈</button>
+      <div>哈哈哈</div>
     </ToolTip>
   </div>
 </template>

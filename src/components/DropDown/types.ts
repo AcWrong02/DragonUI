@@ -18,4 +18,5 @@ export interface dropDownItemProps{
   icon?:string;//自定义菜单图标
   disabled?:boolean; //是否禁用
   divided?:boolean; //是否显示分割线
+  label?:string; //菜单项的文本
 }

@@ -78,10 +78,22 @@
     <button @click="click">click</button>
   </div>
   <button @click="handleClick">click</button>
+  <h1>ToolTip</h1>
+  <ToolTip>
+    <Button>Hover</Button>
+    <template #content>
+      <div>This is Content</div>
+    </template>
+  </ToolTip>
   <h1>下拉菜单</h1>
   <DropDown>
-    哈哈哈哈哈
+    <template #dropdown>
+      <DropDownItem label="老友粉"></DropDownItem>
+      <DropDownItem label="黄金糕"></DropDownItem>
+      <DropDownItem label="狮子头"></DropDownItem>
+    </template>
   </DropDown>
+  <div style="width:500px;height: 500px;"></div>
 </template>
 
 <script setup lang="ts">
@@ -90,6 +102,8 @@ import Button from "./components/Button/Button.vue";
 import Collapse from "./components/Collapse/Collapse.vue";
 import CollapseItem from "./components/Collapse/CollapseItem.vue";
 import DropDown from "./components/DropDown/DropDown.vue";
+import DropDownItem from "./components/DropDown/DropdownItem.vue";
+import ToolTip from "./components/Tooltip/Tooltip.vue"
 const activeNames = ref(["1"]);
 const activeNames1 = ref(["1"]);
 const click = () => {

@@ -1,158 +1,154 @@
 <template>
-  <div class="dra-tooltip" ref="popperContainerNode" v-on="outerEvents">
-    <div class="dra-tooltip__trigger" ref="triggerNode" v-on="events">
+  <div
+    class="dra-tooltip"
+    ref="popperContainerNode"
+    v-on="outerEvents"
+  >
+    <div
+      class="dra-tooltip__trigger"
+      ref="triggerNode"
+      v-on="events"
+    >
       <slot />
     </div>
     <Transition :name="transition">
-      <div v-if="isOpen" class="dra-tooltip__popper" ref="popperNode">
+      <div
+        v-if="isOpen"
+        class="dra-tooltip__popper"
+        ref="popperNode"
+      >
         <slot name="content">
-          {{ content }}
+          {{content}}
         </slot>
         <div id="arrow" data-popper-arrow></div>
       </div>
     </Transition>
   </div>
-</template>
-<script setup lang="ts">
-import { ref, watch, reactive, onUnmounted, computed } from "vue";
-import { createPopper } from "@popperjs/core";
-import type { Instance } from "@popperjs/core";
-import { debounce } from "lodash-es";
-import type { TooltipProps, TooltipEmits, TooltipInstance } from "./types";
-import useClickOutside from "../../hooks/useClickOutside";
-defineOptions({
-  name: "draTooltip",
-});
-const props = withDefaults(defineProps<TooltipProps>(), {
-  placement: "bottom",
-  trigger: "hover",
-  transition: "fade",
-  openDelay: 0,
-  closeDelay: 0,
-});
-const emits = defineEmits<TooltipEmits>();
-const isOpen = ref(false);
-const popperNode = ref<HTMLElement>();
-const triggerNode = ref<HTMLElement>();
-const popperContainerNode = ref<HTMLElement>();
-let popperInstance: null | Instance = null;
-let events: Record<string, any> = reactive({});
-let outerEvents: Record<string, any> = reactive({});
-let openTimes = 0;
-let closeTimes = 0;
-const popperOptions = computed(() => {
-  return {
-    placement: props.placement,
-    modifiers: [
-      {
-        name: "offset",
-        options: {
-          offset: [0, 9],
-        },
-      },
-    ],
-    ...props.popperOptions,
-  };
-});
-
-// 弹出层打开事件
-const open = () => {
-  openTimes++;
-  console.log("open times", openTimes);
-  isOpen.value = true;
-  emits("visible-change", true);
-};
-// 弹出层关闭事件
-const close = () => {
-  closeTimes++;
-  console.log("close times", closeTimes);
-  isOpen.value = false;
-  emits("visible-change", false);
-};
-
-const openDebounce = debounce(open, props.openDelay);
-const closeDebounce = debounce(close, props.closeDelay);
-
-const openFinal = () => {
-  closeDebounce.cancel();
-  openDebounce();
-};
-const closeFinal = () => {
-  openDebounce.cancel();
-  closeDebounce();
-};
-
-const togglePopper = () => {
-  if (isOpen.value) {
-    closeFinal();
-  } else {
-    openFinal();
+  </template>
+  <script setup lang="ts">
+  import { ref, watch, reactive, onUnmounted, computed } from 'vue'
+  import { createPopper } from '@popperjs/core'
+  import type { Instance } from '@popperjs/core'
+  import { debounce } from 'lodash-es'
+  import type { TooltipProps, TooltipEmits, TooltipInstance } from './types'
+  import useClickOutside from '../../hooks/useClickOutside'
+  defineOptions({
+    name: 'draTooltip'
+  })
+  const props = withDefaults(defineProps<TooltipProps>(), {
+    placement: 'bottom',
+    trigger: 'hover',
+    transition: 'fade',
+    openDelay: 0,
+    closeDelay: 0,
+  })
+  const emits = defineEmits<TooltipEmits>()
+  const isOpen = ref(false)
+  const popperNode = ref<HTMLElement>()
+  const triggerNode = ref<HTMLElement>()
+  const popperContainerNode = ref<HTMLElement>()
+  let popperInstance: null | Instance = null
+  let events: Record<string, any> = reactive({})
+  let outerEvents: Record<string, any> = reactive({})
+  let openTimes = 0
+  let closeTimes = 0
+  const popperOptions = computed(() => {
+    return {
+      placement: props.placement,
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 9],
+          },
+        }
+      ],
+      ...props.popperOptions
+    }
+  })
+  
+  const open = () => {
+    openTimes++
+    console.log('open times', openTimes)
+    isOpen.value = true
+    emits('visible-change', true)
+  
   }
-};
-useClickOutside(popperContainerNode, () => {
-  if (props.trigger === "click" && isOpen.value && !props.manual) {
-    closeFinal();
+  const close = () => {
+    closeTimes++
+    console.log('close times', closeTimes)
+    isOpen.value = false
+    emits('visible-change', false)
   }
-  if (isOpen.value) {
-    emits("click-outside", true);
+  const openDebounce = debounce(open, props.openDelay)
+  const closeDebounce = debounce(close, props.closeDelay)
+  
+  const openFinal = () => {
+    closeDebounce.cancel()
+    openDebounce()
   }
-});
-const attachEvents = () => {
-  if (props.trigger === "hover") {
-    events["mouseenter"] = openFinal;
-    outerEvents["mouseleave"] = closeFinal;
-  } else if (props.trigger === "click") {
-    events["click"] = togglePopper;
+  const closeFinal = () => {
+    openDebounce.cancel()
+    closeDebounce()
   }
-};
-if (!props.manual) {
-  attachEvents();
-}
-watch(
-  () => props.manual,
-  (isManual) => {
-    if (isManual) {
-      events = {};
-      outerEvents = {};
+  
+  const togglePopper = () => {
+    if (isOpen.value) {
+      closeFinal()
     } else {
-      attachEvents();
+      openFinal()
     }
   }
-);
-watch(
-  () => props.trigger,
-  (newTrigger, oldTrigger) => {
+  useClickOutside(popperContainerNode, () => {
+    if (props.trigger === 'click' && isOpen.value && !props.manual) {
+      closeFinal()
+    }
+    if (isOpen.value) {
+      emits('click-outside', true)
+    }
+  })
+  const attachEvents = () => {
+    if (props.trigger === 'hover') {
+      events['mouseenter'] = openFinal
+      outerEvents['mouseleave'] = closeFinal
+    } else if (props.trigger === 'click') {
+      events['click'] = togglePopper
+    }
+  }
+  if (!props.manual) {
+    attachEvents()
+  }
+  watch(() => props.manual, (isManual) => {
+    if (isManual) {
+      events = {}
+      outerEvents = {}    
+    } else {
+      attachEvents()
+    }
+  })
+  watch(() => props.trigger, (newTrigger, oldTrigger) => {
     if (newTrigger !== oldTrigger) {
       // clear the events
-      events = {};
-      outerEvents = {};
-      attachEvents();
+      events = {}
+      outerEvents = {}
+      attachEvents()
     }
-  }
-);
-watch(
-  isOpen,
-  (newValue) => {
+  })
+  watch(isOpen, (newValue) => {
     if (newValue) {
       if (triggerNode.value && popperNode.value) {
-        popperInstance = createPopper(
-          triggerNode.value,
-          popperNode.value,
-          popperOptions.value
-        );
+        popperInstance = createPopper(triggerNode.value, popperNode.value, popperOptions.value)
       } else {
-        popperInstance?.destroy();
+        popperInstance?.destroy()
       }
     }
-  },
-  { flush: "post" }
-);
-
-onUnmounted(() => {
-  popperInstance?.destroy();
-});
-defineExpose<TooltipInstance>({
-  show: openFinal,
-  hide: closeFinal,
-});
-</script>
+  }, { flush: 'post'})
+  
+  onUnmounted(() => {
+    popperInstance?.destroy()
+  })
+  defineExpose<TooltipInstance>({
+    'show': openFinal,
+    'hide': closeFinal
+  })
+  </script>
