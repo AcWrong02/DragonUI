@@ -109,7 +109,8 @@ import ToolTip from "./components/Tooltip/Tooltip.vue"
 import Message from "./components/Message/Message.vue";
 import { createMessage } from "./components/Message/methods";
 onMounted(() => {
-  createMessage({message: "hello world!"});
+  createMessage({message: "hello world!", duration: 0});
+  createMessage({message: "hello world again!"});
 })
 const activeNames = ref(["1"]);
 const activeNames1 = ref(["1"]);

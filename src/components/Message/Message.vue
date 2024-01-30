@@ -3,7 +3,7 @@
     class="dra-message"
     :class="{ [`dra-message--${type}`]: type, 'is-close': showClose }"
     role="alert"
-    v-if="visible"
+    v-show="visible"
   >
     <div class="dra-message__content">
         <sloe>{{ message }}</sloe>
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import type { MessageProps } from "./types";
 import Icon from '../Icon/Icon.vue'
-import { onMounted, ref } from "vue";
+import { onMounted, ref,watch } from "vue";
 defineOptions({
     name:'DraMessage'
 })
@@ -35,6 +35,10 @@ const startTime = ()=>{
 
 //消息显示与否
 const visible = ref(false)
+
+watch(visible, (newValue)=>{
+  if(!newValue) props.onDestroy();
+})
 
 onMounted(() => {
   visible.value = true;
