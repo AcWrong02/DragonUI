@@ -81,6 +81,7 @@
   <h1>ToolTip</h1>
   <ToolTip>
     <Button>Hover</Button>
+
     <template #content>
       <div>This is Content</div>
     </template>
@@ -93,17 +94,23 @@
       <DropDownItem label="狮子头"></DropDownItem>
     </template>
   </DropDown>
-  <div style="width:500px;height: 500px;"></div>
+  <div style="width:500px;height: 300px;"></div>
+  <!-- <Message message="hello world" :duration="0"></Message> -->
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import Button from "./components/Button/Button.vue";
 import Collapse from "./components/Collapse/Collapse.vue";
 import CollapseItem from "./components/Collapse/CollapseItem.vue";
 import DropDown from "./components/DropDown/DropDown.vue";
 import DropDownItem from "./components/DropDown/DropdownItem.vue";
 import ToolTip from "./components/Tooltip/Tooltip.vue"
+import Message from "./components/Message/Message.vue";
+import { createMessage } from "./components/Message/methods";
+onMounted(() => {
+  createMessage({message: "hello world!"});
+})
 const activeNames = ref(["1"]);
 const activeNames1 = ref(["1"]);
 const click = () => {
