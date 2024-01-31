@@ -94,7 +94,7 @@
       <DropDownItem label="狮子头"></DropDownItem>
     </template>
   </DropDown>
-  <div style="width:500px;height: 300px;"></div>
+  <div style="width: 500px; height: 300px"></div>
   <!-- <Message message="hello world" :duration="0"></Message> -->
 </template>
 
@@ -105,24 +105,25 @@ import Collapse from "./components/Collapse/Collapse.vue";
 import CollapseItem from "./components/Collapse/CollapseItem.vue";
 import DropDown from "./components/DropDown/DropDown.vue";
 import DropDownItem from "./components/DropDown/DropdownItem.vue";
-import ToolTip from "./components/Tooltip/Tooltip.vue"
+import ToolTip from "./components/Tooltip/Tooltip.vue";
 import Message from "./components/Message/Message.vue";
 import { createMessage } from "./components/Message/methods";
 onMounted(() => {
-  createMessage({message: "hello world!", duration: 0});
-  createMessage({message: "hello world again!"});
-})
+  createMessage({ message: "hello world!", duration: 0 });
+  createMessage({ message: "hello world again!", duration: 0 });
+  createMessage({ message: "hello world three!", duration: 0 });
+});
 const activeNames = ref(["1"]);
 const activeNames1 = ref(["1"]);
 const click = () => {
   activeNames1.value.push("2");
 };
-const change = (value)=>{
-  console.log("change---",value)
-}
+const change = (value) => {
+  console.log("change---", value);
+};
 
 const handleClick = () => {
-  activeNames1.value = ['1','2']
+  activeNames1.value = ["1", "2"];
 };
 
 const value = ref(["1"]);

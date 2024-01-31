@@ -8,4 +8,10 @@ export interface MessageProps {
   onDestroy: () => void;
 }
 
-export type createMessageProps = Omit<MessageProps,'onDestroy'>
+export interface MessageContext {
+  id: string;
+  vnode: VNode;
+  props: MessageProps;
+}
+
+export type createMessageProps = Omit<MessageProps, "onDestroy">;
