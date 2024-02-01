@@ -6,6 +6,7 @@ export interface MessageProps {
   type?: "success" | "error" | "warning" | "info";
   showClose?: boolean; //是否显示关闭按钮
   onDestroy: () => void;
+  offset?: number;
 }
 
 export interface MessageContext {

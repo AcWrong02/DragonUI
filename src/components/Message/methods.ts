@@ -39,3 +39,8 @@ export const createMessage = (props: createMessageProps) => {
 export const getLastInstance = () => {
   return instances[instances.length - 1];
 };
+
+
+export const getLastBottomOffset = () => {
+  return 0
+}
