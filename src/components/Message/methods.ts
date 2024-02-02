@@ -1,9 +1,9 @@
-import { render, h } from "vue";
+import { render, h, reactive } from "vue";
 import type { createMessageProps, MessageContext } from "./types";
 import MessageConstructor from "./Message.vue";
 
 let seed = 1;
-const instances: MessageContext[] = [];
+const instances: MessageContext[] = reactive([]);
 
 export const createMessage = (props: createMessageProps) => {
   const id = `message-${seed++}`;
@@ -18,7 +18,7 @@ export const createMessage = (props: createMessageProps) => {
     render(null, container);
   };
 
-  const newProps = { ...props, onDestroy: destroy };
+  const newProps = { ...props, id, onDestroy: destroy };
 
   const vnode = h(MessageConstructor, newProps);
 
@@ -27,9 +27,12 @@ export const createMessage = (props: createMessageProps) => {
   //   document.body.appendChild(container);
   document.body.appendChild(container.firstElementChild!);
 
+  const vm = vnode.component!;
+
   const instance = {
     id,
     vnode,
+    vm,
     props: newProps,
   };
   instances.push(instance);
@@ -41,6 +44,9 @@ export const getLastInstance = () => {
 };
 
 
-export const getLastBottomOffset = () => {
-  return 0
+export const getLastBottomOffset = (id: string) => {
+  const idx = instances.findIndex((instance) => instance.id === id);
+  if (idx <= 0) return 0;
+  const prev = instances[idx - 1];
+  return prev.vm.exposed!.bottomOffset.value;
 }
