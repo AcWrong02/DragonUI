@@ -66,6 +66,7 @@ onMounted(async () => {
 
 defineExpose({
   bottomOffset,
+  visible
 });
 </script>
 
