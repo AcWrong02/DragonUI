@@ -7,6 +7,7 @@ export interface MessageProps {
   showClose?: boolean; //是否显示关闭按钮
   onDestroy: () => void;
   id: string;
+  zIndex: number;
   offset?: number;
 }
 
@@ -18,4 +19,4 @@ export interface MessageContext {
   destroy: () => void;
 }
 
-export type createMessageProps = Omit<MessageProps, "onDestroy" | "id">;
+export type createMessageProps = Omit<MessageProps, "onDestroy" | "id" | "zIndex">;

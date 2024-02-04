@@ -51,6 +51,7 @@ const topOffset = computed(() => props.offset + lastOffset.value);
 const bottomOffset = computed(() => height.value + topOffset.value);
 const cssStyle = computed(() => ({
   top: topOffset.value + "px",
+  zIndex: props.zIndex,
 }));
 
 watch(visible, (newValue) => {
@@ -66,7 +67,7 @@ onMounted(async () => {
 
 defineExpose({
   bottomOffset,
-  visible
+  visible,
 });
 </script>
 
