@@ -109,10 +109,14 @@ import ToolTip from "./components/Tooltip/Tooltip.vue";
 import Message from "./components/Message/Message.vue";
 import { createMessage } from "./components/Message/methods";
 onMounted(() => {
-  createMessage({ message: "hello world!", duration: 0 });
+  const instance = createMessage({ message: "hello world!", duration: 0 });
   createMessage({ message: "hello world again!", duration: 0 });
   createMessage({ message: "hello world three!", duration: 0 });
+  setTimeout(() => {
+    instance.destroy();
+  }, 2000);
 });
+
 const activeNames = ref(["1"]);
 const activeNames1 = ref(["1"]);
 const click = () => {

@@ -3,12 +3,17 @@
     class="dra-message"
     :class="{ [`dra-message--${type}`]: type, 'is-close': showClose }"
     role="alert"
-    v-show="visible"
+    v-show="visiable"
     ref="messageRef"
     :style="cssStyle"
+    @mouseenter="clearTimer"
+    @mouseleave="startTimer"
   >
     <div class="dra-message__content">
-      <sloe>{{ message }}</sloe>
+      <slot
+        >{{ offset }}-{{ topOffset }}-{{ height }} - {{ bottomOffset }} -
+        {{ message }}</slot
+      >
     </div>
     <div class="dra-message__close" v-if="showClose">
       <Icon icon="xmark"></Icon>
@@ -31,15 +36,20 @@ const props = withDefaults(defineProps<MessageProps>(), {
   offset: 20,
 });
 
-const startTime = () => {
+let timer: any;
+const startTimer = () => {
   if (props.duration === 0) return;
-  setTimeout(() => {
-    visible.value = false;
+  timer = setTimeout(() => {
+    visiable.value = false;
   }, props.duration);
 };
 
+const clearTimer = () => {
+  clearTimeout(timer);
+};
+
 //消息显示与否
-const visible = ref(false);
+const visiable = ref(false);
 
 const messageRef = ref<HTMLElement>();
 // 计算偏移高度
@@ -55,13 +65,13 @@ const cssStyle = computed(() => ({
   zIndex: props.zIndex,
 }));
 
-watch(visible, (newValue) => {
+watch(visiable, (newValue) => {
   if (!newValue) props.onDestroy();
 });
 
 onMounted(async () => {
-  visible.value = true;
-  startTime();
+  visiable.value = true;
+  startTimer();
   await nextTick();
   height.value = messageRef.value!.getBoundingClientRect().height;
 });
@@ -70,14 +80,15 @@ onMounted(async () => {
 function keydown(e: Event) {
   const event = e as KeyboardEvent;
   if (event.code === "Escape") {
-    visible.value = false;
+    visiable.value = false;
   }
 }
 useEventListener(document, "keydown", keydown);
 
 defineExpose({
   bottomOffset,
-  visible,
+  visiable,
+  
 });
 </script>
 

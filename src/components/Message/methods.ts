@@ -1,4 +1,4 @@
-import { render, h, shallowReactive } from "vue";
+import { render, h, shallowReactive, watch } from "vue";
 import type { createMessageProps, MessageContext } from "./types";
 import MessageConstructor from "./Message.vue";
 import useZindex from "../../hooks/useZindex";
@@ -16,7 +16,8 @@ export const createMessage = (props: createMessageProps) => {
   const destroy = () => {
     // 删除数组中的实例
     const idx = instances.findIndex((instance) => instance.id === id);
-    if (idx !== -1) return;
+    console.log('delete instance idx--', idx);
+    if (idx === -1) return;
     instances.splice(idx, 1);
     render(null, container);
   };
@@ -50,6 +51,10 @@ export const createMessage = (props: createMessageProps) => {
   return instance;
 };
 
+watch(instances, (value)=>{
+  console.log("new instances: " ,value)
+})
+
 export const getLastInstance = () => {
   return instances[instances.length - 1];
 };
@@ -58,5 +63,6 @@ export const getLastBottomOffset = (id: string) => {
   const idx = instances.findIndex((instance) => instance.id === id);
   if (idx <= 0) return 0;
   const prev = instances[idx - 1];
+  console.log('idx--', idx, 'prev bottom offset--', prev.vm.exposed!.bottomOffset.value)
   return prev.vm.exposed!.bottomOffset.value;
 };
