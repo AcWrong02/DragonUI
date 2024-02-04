@@ -21,6 +21,7 @@ import type { MessageProps } from "./types";
 import Icon from "../Icon/Icon.vue";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { getLastBottomOffset } from "./methods";
+import useEventListener from "@/hooks/useEventListener";
 defineOptions({
   name: "DraMessage",
 });
@@ -64,6 +65,15 @@ onMounted(async () => {
   await nextTick();
   height.value = messageRef.value!.getBoundingClientRect().height;
 });
+
+// 添加事件
+function keydown(e: Event) {
+  const event = e as KeyboardEvent;
+  if (event.code === "Escape") {
+    visible.value = false;
+  }
+}
+useEventListener(document, "keydown", keydown);
 
 defineExpose({
   bottomOffset,
