@@ -1,24 +1,26 @@
 <template>
-  <div
-    class="dra-message"
-    :class="{ [`dra-message--${type}`]: type, 'is-close': showClose }"
-    role="alert"
-    v-show="visiable"
-    ref="messageRef"
-    :style="cssStyle"
-    @mouseenter="clearTimer"
-    @mouseleave="startTimer"
-  >
-    <div class="dra-message__content">
-      <slot
-        >{{ offset }}-{{ topOffset }}-{{ height }} - {{ bottomOffset }} -
-        {{ message }}</slot
-      >
+  <Transition :name="transitionName" @enter="updateHeight" @after-leave="destroyComponent">
+    <div
+      class="dra-message"
+      :class="{ [`dra-message--${type}`]: type, 'is-close': showClose }"
+      role="alert"
+      v-show="visiable"
+      ref="messageRef"
+      :style="cssStyle"
+      @mouseenter="clearTimer"
+      @mouseleave="startTimer"
+    >
+      <div class="dra-message__content">
+        <slot
+          >{{ offset }}-{{ topOffset }}-{{ height }} - {{ bottomOffset }} -
+          {{ message }}</slot
+        >
+      </div>
+      <div class="dra-message__close" v-if="showClose" @click="onDestroy">
+        <Icon icon="xmark"></Icon>
+      </div>
     </div>
-    <div class="dra-message__close" v-if="showClose" @click="onDestroy">
-      <Icon icon="xmark"></Icon>
-    </div>
-  </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -34,6 +36,7 @@ const props = withDefaults(defineProps<MessageProps>(), {
   duration: 3000,
   type: "info",
   offset: 20,
+  transitionName: "fade-up",
 });
 
 let timer: any;
@@ -65,15 +68,22 @@ const cssStyle = computed(() => ({
   zIndex: props.zIndex,
 }));
 
-watch(visiable, (newValue) => {
-  if (!newValue) props.onDestroy();
-});
+// watch(visiable, (newValue) => {
+//   if (!newValue) props.onDestroy();
+// });
+function destroyComponent(){
+  props.onDestroy();
+}
+
+function updateHeight(){
+  height.value = messageRef.value!.getBoundingClientRect().height
+}
 
 onMounted(async () => {
   visiable.value = true;
   startTimer();
-  await nextTick();
-  height.value = messageRef.value!.getBoundingClientRect().height;
+  // await nextTick();
+  // height.value = messageRef.value!.getBoundingClientRect().height;
 });
 
 // 添加事件
