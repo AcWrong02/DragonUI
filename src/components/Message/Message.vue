@@ -15,7 +15,7 @@
         {{ message }}</slot
       >
     </div>
-    <div class="dra-message__close" v-if="showClose">
+    <div class="dra-message__close" v-if="showClose" @click="onDestroy">
       <Icon icon="xmark"></Icon>
     </div>
   </div>
