@@ -110,8 +110,8 @@ import Message from "./components/Message/Message.vue";
 import { createMessage } from "./components/Message/methods";
 onMounted(() => {
   const instance = createMessage({ message: "hello world!", duration: 0 });
-  createMessage({ message: "hello world again!", duration: 0 });
-  createMessage({ message: "hello world three!", duration: 0 });
+  createMessage({ message: "hello world again!", duration: 0, type: 'warning', showClose:true});
+  createMessage({ message: "hello world three!", duration: 0, type:'danger', showClose:true });
   setTimeout(() => {
     instance.destroy();
   }, 2000);

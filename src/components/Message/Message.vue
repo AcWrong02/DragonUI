@@ -91,14 +91,3 @@ defineExpose({
   
 });
 </script>
-
-<style scoped>
-.dra-message {
-  width: max-content;
-  position: fixed;
-  left: 50%;
-  top: 20px;
-  transform: translateX(-50%);
-  border: 1px solid #ccc;
-}
-</style>
