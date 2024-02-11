@@ -21,9 +21,21 @@
         <span v-if="$slots.prefix" class="dra-input__prefix">
           <slot name="prefix"></slot>
         </span>
-        <input :value="modelValue" @input="handleInput" :type="type" :disabled="disabled" class="dra-input__inner" />
+        <input
+          :value="modelValue"
+          @input="handleInput"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @change="handleChange"
+          :type="type"
+          :disabled="disabled"
+          class="dra-input__inner"
+        />
         <span v-if="$slots.suffix" class="dra-input__suffix">
           <slot name="suffix"></slot>
+        </span>
+        <span v-if="clearable" class="dra-input__clear" @click="handleClear">
+          <Icon icon="xmark"></Icon>
         </span>
       </div>
       <!-- append slot -->
@@ -38,19 +50,43 @@
 </template>
 
 <script setup lang="ts">
-import type { InputProps } from "./types";
+import type { InputProps, InputEmits } from "./types";
+import Icon from "../Icon/Icon.vue";
 defineOptions({
   name: "DraInput",
 });
+
+type TargetElement = HTMLInputElement | HTMLTextAreaElement;
 
 withDefaults(defineProps<InputProps>(), {
   type: "text",
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<InputEmits>();
 
-function handleInput(event){
-    emit("update:modelValue", event.target.value);
+function handleInput(event: Event) {
+  const value = (event.target as TargetElement).value;
+  emit("input", value);
+  emit("update:modelValue", value);
+}
+
+function handleClear() {
+  emit("update:modelValue", "");
+  emit("change", "");
+  emit("clear");
+  emit("input", "");
+}
+
+function handleFocus() {
+  emit("focus");
+}
+
+function handleBlur() {
+  emit("blur");
+}
+
+function handleChange(event: Event) {
+  emit("change", (event.target as TargetElement).value);
 }
 </script>
 

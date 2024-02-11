@@ -94,8 +94,7 @@
       <DropDownItem label="狮子头"></DropDownItem>
     </template>
   </DropDown>
-  <div style="width: 500px; height: 300px"></div>
-  <!-- <Message message="hello world" :duration="0"></Message> -->
+  <Input v-model="inputValue" type="text" clearable/>
 </template>
 
 <script setup lang="ts">
@@ -106,7 +105,7 @@ import CollapseItem from "./components/Collapse/CollapseItem.vue";
 import DropDown from "./components/DropDown/DropDown.vue";
 import DropDownItem from "./components/DropDown/DropdownItem.vue";
 import ToolTip from "./components/Tooltip/Tooltip.vue";
-import Message from "./components/Message/Message.vue";
+import Input from "./components/Input/Input.vue";
 import { createMessage } from "./components/Message/methods";
 onMounted(() => {
   const instance = createMessage({ message: "hello world!", duration: 0 });
@@ -138,6 +137,8 @@ watch(
   },
   { deep: true }
 );
+
+const inputValue = ref('value')
 </script>
 
 <style></style>

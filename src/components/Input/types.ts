@@ -6,3 +6,12 @@ export interface InputProps {
   showPassword?: boolean;
   disabled?: boolean;
 }
+
+export interface InputEmits {
+  (e: "update:modelValue", value: string | number | null | undefined): void;
+  (e: "input", value: string): void;
+  (e: "change", value: string | number): void;
+  (e: "focus"): void;
+  (e: "blur"): void;
+  (e: "clear"): void;
+}
