@@ -77,12 +77,12 @@ function handleClear() {
   emit("input", "");
 }
 
-function handleFocus() {
-  emit("focus");
+function handleFocus(event: FocusEvent) {
+  emit("focus", event);
 }
 
-function handleBlur() {
-  emit("blur");
+function handleBlur(event: FocusEvent) {
+  emit("blur", event);
 }
 
 function handleChange(event: Event) {

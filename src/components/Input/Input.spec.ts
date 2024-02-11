@@ -1,6 +1,7 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { mount } from "@vue/test-utils";
 import Input from "./Input.vue";
+import { ref } from "vue";
 
 describe("Input", () => {
   test("create", async () => {
@@ -42,21 +43,48 @@ describe("Input", () => {
       props: {
         type: "text",
         modelValue: "value",
-        'onUpdate:modelValue': (e: any) => wrapper.setProps({ modelValue: e }),
+        "onUpdate:modelValue": (e: any) => wrapper.setProps({ modelValue: e }),
       },
     });
 
-    const input = wrapper.get('input')
+    const input = wrapper.get("input");
 
     expect(wrapper.get("input").element.value).toBe("value");
 
     // input value change
     await wrapper.get("input").setValue("update value");
-    expect(wrapper.props('modelValue')).toBe("update value")
+    expect(wrapper.props("modelValue")).toBe("update value");
     expect(wrapper.get("input").element.value).toBe("update value");
 
     // props change
-    await wrapper.setProps({ modelValue: 'prop update' })
-    expect(input.element.value).toBe('prop update')
+    await wrapper.setProps({ modelValue: "prop update" });
+    expect(input.element.value).toBe("prop update");
+  });
+
+  describe("input Events", () => {
+    const handleFocus = vi.fn();
+    const handleBlur = vi.fn();
+
+    test("event:focus & blur", async () => {
+      const content = ref("");
+      const wrapper = mount(Input, {
+        props: {
+          type: "text",
+          modelValue: content.value,
+          "onUpdate:modelValue": (e: any) =>
+            wrapper.setProps({ modelValue: e }),
+            onFocus: handleFocus,
+            onBlur: handleBlur,
+        },
+      });
+
+      const input = wrapper.get("input");
+
+      await input.trigger("focus");
+      expect(handleFocus).toHaveBeenCalled();
+
+      await input.trigger("blur");
+      expect(handleBlur).toHaveBeenCalled();
+    });
   });
 });
