@@ -95,6 +95,8 @@
     </template>
   </DropDown>
   <Input v-model="inputValue" type="text" clearable/>
+  <h1>showPassword</h1>
+  <Input v-model="inputValue" type="text" show-password/>
 </template>
 
 <script setup lang="ts">

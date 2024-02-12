@@ -23,14 +23,17 @@
         </span>
         <input
           :value="modelValue"
+          :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
           @input="handleInput"
           @focus="handleFocus"
           @blur="handleBlur"
           @change="handleChange"
-          :type="type"
           :disabled="disabled"
           class="dra-input__inner"
         />
+        <span v-if="showPassword" class="dra-input__password" @click="handlePasswordVisible">
+          <Icon :icon="passwordVisible ? 'eye' : 'eye-slash'"></Icon>
+        </span>
         <span v-if="$slots.suffix" class="dra-input__suffix">
           <slot name="suffix"></slot>
         </span>
@@ -52,6 +55,7 @@
 <script setup lang="ts">
 import type { InputProps, InputEmits } from "./types";
 import Icon from "../Icon/Icon.vue";
+import { ref } from "vue";
 defineOptions({
   name: "DraInput",
 });
@@ -63,6 +67,14 @@ withDefaults(defineProps<InputProps>(), {
 });
 
 const emit = defineEmits<InputEmits>();
+
+//是否显示密码
+const passwordVisible = ref(false);
+
+
+const handlePasswordVisible = () => {
+  passwordVisible.value = !passwordVisible.value
+}
 
 function handleInput(event: Event) {
   const value = (event.target as TargetElement).value;
