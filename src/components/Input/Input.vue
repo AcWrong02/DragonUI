@@ -22,6 +22,7 @@
           <slot name="prefix"></slot>
         </span>
         <input
+          ref="input"
           :value="modelValue"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
           @input="handleInput"
@@ -31,7 +32,11 @@
           :disabled="disabled"
           class="dra-input__inner"
         />
-        <span v-if="showPassword" class="dra-input__password" @click="handlePasswordVisible">
+        <span
+          v-if="showPassword"
+          class="dra-input__password"
+          @click="handlePasswordVisible"
+        >
           <Icon :icon="passwordVisible ? 'eye' : 'eye-slash'"></Icon>
         </span>
         <span v-if="$slots.suffix" class="dra-input__suffix">
@@ -47,7 +52,12 @@
       </div>
     </template>
     <template v-else>
-      <textarea class="dra-textarea__wrapper" :disabled="disabled"> </textarea>
+      <textarea
+        ref="textarea"
+        class="dra-textarea__wrapper"
+        :disabled="disabled"
+      >
+      </textarea>
     </template>
   </div>
 </template>
@@ -55,7 +65,7 @@
 <script setup lang="ts">
 import type { InputProps, InputEmits } from "./types";
 import Icon from "../Icon/Icon.vue";
-import { ref } from "vue";
+import { computed, nextTick, ref, shallowRef } from "vue";
 defineOptions({
   name: "DraInput",
 });
@@ -71,10 +81,14 @@ const emit = defineEmits<InputEmits>();
 //是否显示密码
 const passwordVisible = ref(false);
 
+const input = shallowRef<HTMLInputElement>();
+const textarea = shallowRef<HTMLTextAreaElement>();
+const _ref = computed(() => input.value || textarea.value);
 
 const handlePasswordVisible = () => {
-  passwordVisible.value = !passwordVisible.value
-}
+  passwordVisible.value = !passwordVisible.value;
+  focus();
+};
 
 function handleInput(event: Event) {
   const value = (event.target as TargetElement).value;
@@ -100,6 +114,21 @@ function handleBlur(event: FocusEvent) {
 function handleChange(event: Event) {
   emit("change", (event.target as TargetElement).value);
 }
+
+const focus = async () => {
+  // see: https://github.com/ElemeFE/element/issues/18573
+  await nextTick();
+  _ref.value?.focus();
+};
+
+const blur = () => _ref.value?.blur()
+
+defineExpose({
+  /** @description HTML input element native method */
+  focus,
+  /** @description HTML input element native method */
+  blur
+});
 </script>
 
 <style scoped></style>
