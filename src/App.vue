@@ -95,6 +95,7 @@
     </template>
   </DropDown>
   <Input v-model="inputValue" type="text" clearable/>
+  <div>{{ inputValue }}</div>
   <h1>showPassword</h1>
   <Input v-model="inputValue" type="text" show-password/>
 </template>

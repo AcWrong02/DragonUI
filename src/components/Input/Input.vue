@@ -9,6 +9,7 @@
       'is-append': $slots.append,
       'is-prefix': $slots.prefix,
       'is-suffix': $slots.suffix,
+      'is-focus': isFocus,
     }"
   >
     <!-- input -->
@@ -23,27 +24,37 @@
         </span>
         <input
           ref="input"
-          :value="modelValue"
+          v-model="innerValue"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
+          :placeholder="placeholder"
+          :readonly="readonly"
+          :tabindex="tabindex"
+          :autocomplete="autocomplete"
+          :autofocus="autofocus"
+          :disabled="disabled"
           @input="handleInput"
           @focus="handleFocus"
           @blur="handleBlur"
           @change="handleChange"
-          :disabled="disabled"
           class="dra-input__inner"
         />
         <span
-          v-if="showPassword"
-          class="dra-input__password"
-          @click="handlePasswordVisible"
+          v-if="$slots.suffix || showClear || showPasswordArea"
+          class="dra-input__suffix"
         >
-          <Icon :icon="passwordVisible ? 'eye' : 'eye-slash'"></Icon>
-        </span>
-        <span v-if="$slots.suffix" class="dra-input__suffix">
           <slot name="suffix"></slot>
-        </span>
-        <span v-if="clearable" class="dra-input__clear" @click="handleClear">
-          <Icon icon="xmark"></Icon>
+          <Icon
+            icon="circle-xmark"
+            class="dra-input__clear"
+            v-if="showClear"
+            @click="handleClear"
+          ></Icon>
+          <Icon
+            v-if="showPasswordArea"
+            class="dra-input__password"
+            @click="handlePasswordVisible"
+            :icon="passwordVisible ? 'eye' : 'eye-slash'"
+          ></Icon>
         </span>
       </div>
       <!-- append slot -->
@@ -55,7 +66,14 @@
       <textarea
         ref="textarea"
         class="dra-textarea__wrapper"
+        :placeholder="placeholder"
+        :readonly="readonly"
+        :tabindex="tabindex"
+        :autocomplete="autocomplete"
+        :autofocus="autofocus"
         :disabled="disabled"
+        v-model="innerValue"
+        @input="handleInput"
       >
       </textarea>
     </template>
@@ -65,18 +83,33 @@
 <script setup lang="ts">
 import type { InputProps, InputEmits } from "./types";
 import Icon from "../Icon/Icon.vue";
-import { computed, nextTick, ref, shallowRef } from "vue";
+import { computed, nextTick, ref, shallowRef, watch } from "vue";
 defineOptions({
   name: "DraInput",
 });
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement;
 
-withDefaults(defineProps<InputProps>(), {
+const props = withDefaults(defineProps<InputProps>(), {
   type: "text",
+  autocomplete: "off",
 });
 
 const emit = defineEmits<InputEmits>();
+
+const innerValue = ref(props.modelValue);
+
+// 是否是聚焦状态
+const isFocus = ref(false);
+
+const showClear = computed(
+  () =>
+    props.clearable && !props.disabled && !!innerValue.value && isFocus.value
+);
+
+const showPasswordArea = computed(
+  () => props.showPassword && !props.disabled && !!innerValue.value
+);
 
 //是否显示密码
 const passwordVisible = ref(false);
@@ -89,6 +122,13 @@ const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value;
   focus();
 };
+
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    innerValue.value = newValue;
+  }
+);
 
 function handleInput(event: Event) {
   const value = (event.target as TargetElement).value;
@@ -104,10 +144,12 @@ function handleClear() {
 }
 
 function handleFocus(event: FocusEvent) {
+  isFocus.value = true;
   emit("focus", event);
 }
 
 function handleBlur(event: FocusEvent) {
+  isFocus.value = false;
   emit("blur", event);
 }
 
@@ -121,13 +163,13 @@ const focus = async () => {
   _ref.value?.focus();
 };
 
-const blur = () => _ref.value?.blur()
+const blur = () => _ref.value?.blur();
 
 defineExpose({
   /** @description HTML input element native method */
   focus,
   /** @description HTML input element native method */
-  blur
+  blur,
 });
 </script>
 
