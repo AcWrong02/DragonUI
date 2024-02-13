@@ -11,6 +11,8 @@
       'is-suffix': $slots.suffix,
       'is-focus': isFocus,
     }"
+    @mouseenter="isFocus = true"
+    @mouseleave="isFocus = false"
   >
     <!-- input -->
     <template v-if="type !== 'textarea'">
@@ -144,12 +146,12 @@ function handleClear() {
 }
 
 function handleFocus(event: FocusEvent) {
-  isFocus.value = true;
+  // isFocus.value = true;
   emit("focus", event);
 }
 
 function handleBlur(event: FocusEvent) {
-  isFocus.value = false;
+  // isFocus.value = false;
   emit("blur", event);
 }
 
