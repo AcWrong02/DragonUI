@@ -73,8 +73,8 @@ describe("Input", () => {
           modelValue: content.value,
           "onUpdate:modelValue": (e: any) =>
             wrapper.setProps({ modelValue: e }),
-            onFocus: handleFocus,
-            onBlur: handleBlur,
+          onFocus: handleFocus,
+          onBlur: handleBlur,
         },
       });
 
@@ -86,5 +86,28 @@ describe("Input", () => {
       await input.trigger("blur");
       expect(handleBlur).toHaveBeenCalled();
     });
+  });
+
+  test("支持点击清空字符串", async () => {
+    const wrapper = mount(Input, {
+      props: {
+        modelValue: "test",
+        type: "text",
+        clearable: true,
+        "onUpdate:modelValue": (e: any) => wrapper.setProps({ modelValue: e }),
+      },
+      global:{
+        stubs: ['Icon']
+      }
+    });
+    // 不出现对应的Icon区域
+    expect(wrapper.find('.dra-input__clear').exists()).toBeFalsy();
+    const input = wrapper.get('input');
+    await input.trigger('focus');
+
+    //出现Icon区域
+    expect(wrapper.find('.dra-input__clear').exists()).toBeTruthy();
+    await wrapper.find('.dra-input__clear').trigger('click');
+    expect(input.element.value).toBe('');
   });
 });
