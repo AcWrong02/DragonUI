@@ -99,7 +99,9 @@
   <h1>showPassword</h1>
   <Input v-model="inputValue" type="text" show-password />
   <h1>Switch组件</h1>
-  <Switch v-model="switchValue"></Switch>
+  <!-- <Switch v-model="switchValue"></Switch> -->
+  <Switch v-model="switchValue" active-value="right" inactive-value="wrong"></Switch>
+  <div>{{ switchValue }}</div>
 </template>
 
 <script setup lang="ts">
@@ -156,7 +158,7 @@ watch(
 
 const inputValue = ref("value");
 
-const switchValue = ref(false);
+const switchValue = ref("right");
 </script>
 
 <style></style>
