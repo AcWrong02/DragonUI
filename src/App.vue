@@ -100,7 +100,7 @@
   <Input v-model="inputValue" type="text" show-password />
   <h1>Switch组件</h1>
   <!-- <Switch v-model="switchValue"></Switch> -->
-  <Switch v-model="switchValue" active-value="right" inactive-value="wrong"></Switch>
+  <Switch v-model="switchValue" active-value="right" inactive-value="wrong" active-text="ON" inactive-text="OFF"></Switch>
   <div>{{ switchValue }}</div>
 </template>
 
