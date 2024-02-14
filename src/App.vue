@@ -94,10 +94,12 @@
       <DropDownItem label="狮子头"></DropDownItem>
     </template>
   </DropDown>
-  <Input v-model="inputValue" type="text" clearable/>
+  <Input v-model="inputValue" type="text" clearable />
   <div>{{ inputValue }}</div>
   <h1>showPassword</h1>
-  <Input v-model="inputValue" type="text" show-password/>
+  <Input v-model="inputValue" type="text" show-password />
+  <h1>Switch组件</h1>
+  <Switch v-model="switchValue"></Switch>
 </template>
 
 <script setup lang="ts">
@@ -109,11 +111,22 @@ import DropDown from "./components/DropDown/DropDown.vue";
 import DropDownItem from "./components/DropDown/DropdownItem.vue";
 import ToolTip from "./components/Tooltip/Tooltip.vue";
 import Input from "./components/Input/Input.vue";
+import Switch from "./components/Switch/Switch.vue";
 import { createMessage } from "./components/Message/methods";
 onMounted(() => {
   const instance = createMessage({ message: "hello world!", duration: 0 });
-  createMessage({ message: "hello world again!", duration: 0, type: 'warning', showClose:true});
-  createMessage({ message: "hello world three!", duration: 0, type:'danger', showClose:true });
+  createMessage({
+    message: "hello world again!",
+    duration: 0,
+    type: "warning",
+    showClose: true,
+  });
+  createMessage({
+    message: "hello world three!",
+    duration: 0,
+    type: "danger",
+    showClose: true,
+  });
   setTimeout(() => {
     instance.destroy();
   }, 2000);
@@ -141,7 +154,9 @@ watch(
   { deep: true }
 );
 
-const inputValue = ref('value')
+const inputValue = ref("value");
+
+const switchValue = ref(false);
 </script>
 
 <style></style>
