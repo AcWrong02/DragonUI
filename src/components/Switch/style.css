@@ -12,6 +12,19 @@
   line-height: 20px;
   height: 32px;
   border: 1px solid #ccc;
+  .dra-switch__input{
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+    &:focus-visible{
+        & ~ .dra-switch__core{
+            outline: 2px solid var(--dra-switch-on-color);
+            outline-offset: 1px;
+        }
+    }
+  }
   &.is-checked {
     .dra-switch__core {
       border-color: var(--dra-switch-on-border-color);
