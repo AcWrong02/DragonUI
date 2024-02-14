@@ -1,0 +1,49 @@
+.dra-switch {
+  --dra-switch-on-color: var(--dra-color-primary);
+  --dra-switch-off-color: var(--dra-border-color);
+  --dra-switch-on-border-color: var(--dra-color-primary);
+  --dra-switch-off-border-color: var(--dra-border-color);
+}
+
+.dra-switch {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 20px;
+  height: 32px;
+  border: 1px solid #ccc;
+  &.is-checked {
+    .dra-switch__core {
+      border-color: var(--dra-switch-on-border-color);
+      background-color: var(--dra-switch-on-color);
+      .dra-switch__core-action {
+        left: calc(100% - 17px);
+      }
+    }
+  }
+}
+
+.dra-switch__core {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  height: 20px;
+  min-width: 40px;
+  border: 1px solid var(--dra-switch-off-border-color);
+  outline: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: var(--dra-switch-off-color);
+  cursor: pointer;
+  transition: border-color var(--dra-transition-duration),
+    background-color var(--dra-transition-duration);
+  .dra-switch__core-action {
+    position: absolute;
+    left: 1px;
+    border-radius: var(--dra-border-radius-circle);
+    width: 16px;
+    height: 16px;
+    background-color: var(--dra-color-white);
+    transition: all var(--dra-transition-duration);
+  }
+}

@@ -6,6 +6,7 @@
       'is-disabled': disabled,
       'is-checked': checked,
     }"
+    @click="switchValue"
   >
     <input
       class="dra-switch__input"
@@ -15,7 +16,7 @@
       :disabled="disabled"
     />
     <div class="dra-switch__core">
-        <div class="dra-switch__core-action"></div>
+      <div class="dra-switch__core-action"></div>
     </div>
   </div>
 </template>
@@ -36,6 +37,12 @@ const emits = defineEmits<SwitchEmits>();
 
 const innerValue = ref(props.modelValue);
 const checked = computed(() => innerValue.value);
+const switchValue = () => {
+  if (props.disabled) return;
+  innerValue.value = !checked.value;
+  emits("update:modelValue", innerValue.value);
+  emits("change", innerValue.value);
+};
 </script>
 
 <style scoped></style>
