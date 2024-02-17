@@ -102,10 +102,23 @@
   <!-- <Switch v-model="switchValue"></Switch> -->
   <Switch v-model="switchValue" active-value="right" inactive-value="wrong" active-text="ON" inactive-text="OFF"></Switch>
   <div>{{ switchValue }}</div>
+  <h1>Form</h1>
+  <Form :model="model" :rules="rules">
+    <FormItem label="the email" prop="email">
+      <Input v-model="model.email" />
+    </FormItem>
+    <FormItem label="the password" prop="password">
+      <Input v-model="model.password" />
+    </FormItem>
+    <div>
+      <Button type="primary">Submit</Button>
+      <Button>Reset</Button>
+    </div>
+  </Form>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import Button from "./components/Button/Button.vue";
 import Collapse from "./components/Collapse/Collapse.vue";
 import CollapseItem from "./components/Collapse/CollapseItem.vue";
@@ -114,6 +127,8 @@ import DropDownItem from "./components/DropDown/DropdownItem.vue";
 import ToolTip from "./components/Tooltip/Tooltip.vue";
 import Input from "./components/Input/Input.vue";
 import Switch from "./components/Switch/Switch.vue";
+import Form from "./components/Form/Form.vue";
+import FormItem from "./components/Form/FormItem.vue";
 import { createMessage } from "./components/Message/methods";
 onMounted(() => {
   const instance = createMessage({ message: "hello world!", duration: 0 });
@@ -159,6 +174,16 @@ watch(
 const inputValue = ref("value");
 
 const switchValue = ref("right");
+
+const model = reactive({
+  email: "",
+  password: "",
+});
+
+const rules = {
+  email: [{ type: 'string', required: true, trigger: 'blur'}],
+  password: [{ type: 'string', required: true, trigger: 'blur'}],
+}
 </script>
 
 <style></style>

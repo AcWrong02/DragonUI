@@ -1,16 +1,19 @@
 <template>
-    <form class="dra-form">
-        <slot></slot>
-    </form>
+  <form class="dra-form">
+    <slot></slot>
+  </form>
 </template>
 
 <script setup lang="ts">
-import type { FormItemProps } from "./types"
+import { provide } from "vue";
+import type { FormProps } from "./types";
+import { formContextKey } from "./types";
 defineOptions({
-    name:'DraForm'
-})
+  name: "DraForm",
+});
 
-const props = defineProps<FormItemProps>()
+const props = defineProps<FormProps>();
+provide(formContextKey, props);
 </script>
 
 <style scoped></style>
