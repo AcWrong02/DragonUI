@@ -24,5 +24,12 @@ export interface FormProps {
 
 export interface FormContext extends FormProps {}
 
+export interface FormItemContext {
+  validate: () => any;
+}
+
 export const formContextKey: InjectionKey<FormContext> =
   Symbol("formContextKey");
+
+export const formItemContextKey: InjectionKey<FormItemContext> =
+  Symbol("formItemContextKey");

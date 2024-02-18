@@ -11,7 +11,7 @@
       <slot name="label" :label="label">{{ label }}</slot>
     </lebel>
     <div class="dra-form-item__content">
-      <slot></slot>
+      <slot :validate="validate"></slot>
       <div
         class="dra-form-item__error-msg"
         v-if="(validateStatus.state = 'error')"
@@ -26,9 +26,13 @@
 
 <script setup lang="ts">
 import { isNil } from "lodash-es";
-import type { FormItemProps, FormValidateFailure } from "./types";
-import { formContextKey } from "./types";
-import { inject, computed, reactive } from "vue";
+import type {
+  FormItemProps,
+  FormValidateFailure,
+  FormItemContext,
+} from "./types";
+import { formContextKey, formItemContextKey } from "./types";
+import { inject, computed, reactive, provide } from "vue";
 import Schema from "async-validator";
 defineOptions({
   name: "DraFormItem",
@@ -87,6 +91,11 @@ const validate = () => {
       });
   }
 };
+
+const context: FormItemContext = {
+  validate,
+};
+provide(formItemContextKey, context);
 </script>
 
 <style scoped></style>

@@ -85,7 +85,8 @@
 <script setup lang="ts">
 import type { InputProps, InputEmits } from "./types";
 import Icon from "../Icon/Icon.vue";
-import { computed, nextTick, ref, shallowRef, watch } from "vue";
+import { computed, inject, nextTick, ref, shallowRef, watch } from "vue";
+import { formItemContextKey } from "../Form/types";
 defineOptions({
   name: "DraInput",
 });
@@ -120,6 +121,11 @@ const input = shallowRef<HTMLInputElement>();
 const textarea = shallowRef<HTMLTextAreaElement>();
 const _ref = computed(() => input.value || textarea.value);
 
+const formItemContext = inject(formItemContextKey);
+const runValidation = () => {
+  formItemContext?.validate();
+};
+
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value;
   focus();
@@ -153,6 +159,7 @@ function handleFocus(event: FocusEvent) {
 function handleBlur(event: FocusEvent) {
   // isFocus.value = false;
   emit("blur", event);
+  runValidation()
 }
 
 function handleChange(event: Event) {

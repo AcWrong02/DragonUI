@@ -100,7 +100,13 @@
   <Input v-model="inputValue" type="text" show-password />
   <h1>Switch组件</h1>
   <!-- <Switch v-model="switchValue"></Switch> -->
-  <Switch v-model="switchValue" active-value="right" inactive-value="wrong" active-text="ON" inactive-text="OFF"></Switch>
+  <Switch
+    v-model="switchValue"
+    active-value="right"
+    inactive-value="wrong"
+    active-text="ON"
+    inactive-text="OFF"
+  ></Switch>
   <div>{{ switchValue }}</div>
   <h1>Form</h1>
   <Form :model="model" :rules="rules">
@@ -108,7 +114,15 @@
       <Input v-model="model.email" />
     </FormItem>
     <FormItem label="the password" prop="password">
+      <template #label="{ label }">
+        <button>{{ label }}</button>
+      </template>
       <Input v-model="model.password" />
+    </FormItem>
+    <FormItem label="test value" prop="test">
+      <template #default="{ validate }">
+        <input type="text" v-model="model.test" @blur="validate"/>
+      </template>
     </FormItem>
     <div>
       <Button type="primary">Submit</Button>
@@ -178,12 +192,14 @@ const switchValue = ref("right");
 const model = reactive({
   email: "",
   password: "",
+  test: "",
 });
 
 const rules = {
-  email: [{ type: 'email', required: true, trigger: 'blur'}],
-  password: [{ type: 'string', required: true, trigger: 'blur'}],
-}
+  email: [{ type: "email", required: true, trigger: "blur" }],
+  password: [{ type: "string", required: true, trigger: "blur" }],
+  test: [{ type: "string", required: true, trigger: "blur" }],
+};
 </script>
 
 <style></style>
