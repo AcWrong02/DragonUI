@@ -36,6 +36,10 @@ export interface FormItemContext {
   validate: (trigger?: string) => any;
 }
 
+export interface FormInstance{
+  validate: () => Promise<any>;
+}
+
 export const formContextKey: InjectionKey<FormContext> =
   Symbol("formContextKey");
 

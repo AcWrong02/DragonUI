@@ -109,7 +109,7 @@
   ></Switch>
   <div>{{ switchValue }}</div>
   <h1>Form</h1>
-  <Form :model="model" :rules="rules">
+  <Form :model="model" :rules="rules" ref="formRef">
     <FormItem label="the email" prop="email">
       <Input v-model="model.email" />
     </FormItem>
@@ -125,7 +125,7 @@
       </template>
     </FormItem>
     <div>
-      <Button type="primary">Submit</Button>
+      <Button type="primary" @click.prevent="submit">Submit</Button>
       <Button>Reset</Button>
     </div>
   </Form>
@@ -144,6 +144,7 @@ import Switch from "./components/Switch/Switch.vue";
 import Form from "./components/Form/Form.vue";
 import FormItem from "./components/Form/FormItem.vue";
 import { createMessage } from "./components/Message/methods";
+import { aw } from "vitest/dist/reporters-trlZlObr.js";
 onMounted(() => {
   const instance = createMessage({ message: "hello world!", duration: 0 });
   createMessage({
@@ -200,6 +201,17 @@ const rules = {
   password: [{ type: "string", required: true, trigger: "blur" }],
   test: [{ type: "string", required: true, trigger: "blur" }],
 };
+
+const formRef = ref()
+
+const submit = async ()=>{
+  try{
+    await formRef.value.validate()
+    console.log("passed")
+  }catch(e){
+    console.log("failed!", e)
+  }
+}
 </script>
 
 <style></style>

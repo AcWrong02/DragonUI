@@ -1,13 +1,18 @@
 <template>
   <form class="dra-form">
     <slot></slot>
-    <button @click.prevent="validate">validate</button>
   </form>
 </template>
 
 <script setup lang="ts">
 import { provide } from "vue";
-import type { FormContext, FormItemContext, FormProps } from "./types";
+import type {
+  FormContext,
+  FormInstance,
+  FormItemContext,
+  FormProps,
+  FormValidateFailure,
+} from "./types";
 import { formContextKey } from "./types";
 defineOptions({
   name: "DraForm",
@@ -25,15 +30,31 @@ const removeField: FormContext["removeField"] = (field) => {
   if (fields.prop) fields.splice(fields.indexOf(field), 1);
 };
 
-const validate = ()=>{
-  console.log("field validation--",fields);
-}
+const validate = async () => {
+  let validationErrors: any = {};
+  console.log("field validation--", fields);
+  for (const field of fields) {
+    try {
+      await field.validate("");
+      console.log("field validated--", field);
+    } catch (e) {
+      const error = e as FormValidateFailure;
+      validationErrors = { ...validationErrors, ...error.fields };
+    }
+  }
+  if (Object.keys(validationErrors).length === 0) return true;
+  return Promise.reject(validationErrors);
+};
 
 provide(formContextKey, {
   ...props,
   addField,
   removeField,
 });
+
+defineExpose<FormInstance>({
+  validate,
+})
 </script>
 
 <style scoped></style>

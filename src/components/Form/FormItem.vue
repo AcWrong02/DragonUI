@@ -74,9 +74,11 @@ const itemRules = computed(() => {
 
 // 获取传入的trigger
 const getTriggerRules = (trigger?: string) => {
+  // console.log("getTriggerRules")
   const rules = itemRules.value;
   if (rules) {
-    return rules.filters((rule) => {
+    // console.log("getTriggerRules rules", rules)
+    return rules.filter((rule) => {
       if (!rule.trigger || !trigger) return true;
       return rule.trigger && rule.trigger === trigger;
     });
@@ -90,7 +92,10 @@ const validate = (trigger?: string) => {
 
   //
   const triggerRules = getTriggerRules(trigger);
+  // console.log("triggerRules: ", triggerRules)
   if (triggerRules.length === 0) return true;
+
+  // console.log("modelName: ", modelName)
 
   if (modelName) {
     const validator = new Schema({
@@ -99,7 +104,7 @@ const validate = (trigger?: string) => {
 
     validateStatus.loading = true;
 
-    validator
+    return validator
       .validate({ [modelName]: innerValue.value })
       .then(() => {
         validateStatus.state = "success";
@@ -109,6 +114,7 @@ const validate = (trigger?: string) => {
         validateStatus.state = "error";
         validateStatus.errorMsg =
           errors && errors.length > 0 ? errors[0].message || "" : "";
+        return Promise.reject(e);
       })
       .finally(() => {
         validateStatus.loading = false;
