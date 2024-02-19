@@ -10,6 +10,10 @@ export interface FormItemProps {
   prop?: string;
 }
 
+export interface FormItemRule extends RuleItem {
+  trigger?: string;
+}
+
 export type FormRules = Record<string, RuleItem[]>;
 
 export interface FormValidateFailure {
@@ -25,7 +29,7 @@ export interface FormProps {
 export interface FormContext extends FormProps {}
 
 export interface FormItemContext {
-  validate: () => any;
+  validate: (trigger?: string) => any;
 }
 
 export const formContextKey: InjectionKey<FormContext> =

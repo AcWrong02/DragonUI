@@ -21,7 +21,6 @@
     </div>
   </div>
   {{ innerValue }} - {{ itemRules }}
-  <button @click.prevent="validate">Validate</button>
 </template>
 
 <script setup lang="ts">
@@ -66,11 +65,29 @@ const itemRules = computed(() => {
   }
 });
 
-const validate = () => {
+// 获取传入的trigger
+const getTriggerRules = (trigger?: string) => {
+  const rules = itemRules.value;
+  if (rules) {
+    return rules.filters((rule) => {
+      if (!rule.trigger || !trigger) return true;
+      return rule.trigger && rule.trigger === trigger;
+    });
+  } else {
+    return [];
+  }
+};
+
+const validate = (trigger?: string) => {
   const modelName = props.prop;
+
+  // 
+  const triggerRules = getTriggerRules(trigger);
+  if(triggerRules.length === 0) return true;
+
   if (modelName) {
     const validator = new Schema({
-      [modelName]: itemRules.value,
+      [modelName]: triggerRules,
     });
 
     validateStatus.loading = true;

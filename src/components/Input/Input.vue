@@ -122,8 +122,8 @@ const textarea = shallowRef<HTMLTextAreaElement>();
 const _ref = computed(() => input.value || textarea.value);
 
 const formItemContext = inject(formItemContextKey);
-const runValidation = () => {
-  formItemContext?.validate();
+const runValidation = (trigger?: string) => {
+  formItemContext?.validate(trigger);
 };
 
 const handlePasswordVisible = () => {
@@ -149,6 +149,7 @@ function handleClear() {
   emit("change", "");
   emit("clear");
   emit("input", "");
+  runValidation('input')
 }
 
 function handleFocus(event: FocusEvent) {
@@ -159,11 +160,12 @@ function handleFocus(event: FocusEvent) {
 function handleBlur(event: FocusEvent) {
   // isFocus.value = false;
   emit("blur", event);
-  runValidation()
+  runValidation('blur');
 }
 
 function handleChange(event: Event) {
   emit("change", (event.target as TargetElement).value);
+  runValidation('change');
 }
 
 const focus = async () => {
