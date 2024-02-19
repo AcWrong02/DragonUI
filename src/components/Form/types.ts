@@ -26,9 +26,13 @@ export interface FormProps {
   rules: Record<string, any>;
 }
 
-export interface FormContext extends FormProps {}
+export interface FormContext extends FormProps {
+  addField: (field: FormItemContext) => void;
+  removeField: (field: FormItemContext) => void;
+}
 
 export interface FormItemContext {
+  prop: string;
   validate: (trigger?: string) => any;
 }
 

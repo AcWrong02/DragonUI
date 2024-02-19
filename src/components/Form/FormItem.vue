@@ -31,7 +31,14 @@ import type {
   FormItemContext,
 } from "./types";
 import { formContextKey, formItemContextKey } from "./types";
-import { inject, computed, reactive, provide } from "vue";
+import {
+  inject,
+  computed,
+  reactive,
+  provide,
+  onMounted,
+  onUnmounted,
+} from "vue";
 import Schema from "async-validator";
 defineOptions({
   name: "DraFormItem",
@@ -81,9 +88,9 @@ const getTriggerRules = (trigger?: string) => {
 const validate = (trigger?: string) => {
   const modelName = props.prop;
 
-  // 
+  //
   const triggerRules = getTriggerRules(trigger);
-  if(triggerRules.length === 0) return true;
+  if (triggerRules.length === 0) return true;
 
   if (modelName) {
     const validator = new Schema({
@@ -110,9 +117,20 @@ const validate = (trigger?: string) => {
 };
 
 const context: FormItemContext = {
+  prop: props.prop || "",
   validate,
 };
+
 provide(formItemContextKey, context);
+
+onMounted(() => {
+  if (props.prop) {
+    formContext?.addField(context);
+  }
+});
+onUnmounted(() => {
+  formContext?.removeField(context);
+});
 </script>
 
 <style scoped></style>
