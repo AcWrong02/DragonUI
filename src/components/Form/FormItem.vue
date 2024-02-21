@@ -54,6 +54,8 @@ const validateStatus = reactive({
   loading: false,
 });
 
+let initialValue = null;
+
 const innerValue = computed(() => {
   const model = formContext?.model;
   if (model && props.prop && !isNil(model[props.prop])) {
@@ -122,9 +124,25 @@ const validate = (trigger?: string) => {
   }
 };
 
+const clearValidate = () =>{
+  validateStatus.state = "init";
+  validateStatus.errorMsg = "";
+  validateStatus.loading = false;
+}
+
+const resetField = () =>{
+  clearValidate();
+  const model = formContext?.model;
+  if(model && props.prop && !isNil(model[props.prop])){
+    model[props.prop] = initialValue;
+  }
+}
+
 const context: FormItemContext = {
   prop: props.prop || "",
   validate,
+  resetField,
+  clearValidate,
 };
 
 provide(formItemContextKey, context);
@@ -132,6 +150,7 @@ provide(formItemContextKey, context);
 onMounted(() => {
   if (props.prop) {
     formContext?.addField(context);
+    initialValue = innerValue.value;
   }
 });
 onUnmounted(() => {

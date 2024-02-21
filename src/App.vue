@@ -126,7 +126,7 @@
     </FormItem>
     <div>
       <Button type="primary" @click.prevent="submit">Submit</Button>
-      <Button>Reset</Button>
+      <Button @click.prevent="reset">Reset</Button>
     </div>
   </Form>
 </template>
@@ -191,8 +191,8 @@ const inputValue = ref("value");
 const switchValue = ref("right");
 
 const model = reactive({
-  email: "",
-  password: "",
+  email: "123",
+  password: "12",
   test: "",
 });
 
@@ -211,6 +211,11 @@ const submit = async ()=>{
   }catch(e){
     console.log("failed!", e)
   }
+}
+
+const reset = ()=>{
+  // formRef.value.clearValidate()
+  formRef.value.resetFields()
 }
 </script>
 

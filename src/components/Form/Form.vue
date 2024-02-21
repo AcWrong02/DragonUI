@@ -14,6 +14,7 @@ import type {
   FormValidateFailure,
 } from "./types";
 import { formContextKey } from "./types";
+import { filter } from "lodash-es";
 defineOptions({
   name: "DraForm",
 });
@@ -28,6 +29,22 @@ const addField: FormContext["addField"] = (field) => {
 
 const removeField: FormContext["removeField"] = (field) => {
   if (fields.prop) fields.splice(fields.indexOf(field), 1);
+};
+
+const resetFields = (keys: string[] = []) => {
+  const filterArr =
+    keys.length > 0
+      ? fields.filter((field) => keys.includes(field.prop))
+      : fields;
+  filterArr.forEach((field) => field.resetField());
+};
+
+const clearValidate = (keys: string[] = []) => {
+  const filterArr =
+    keys.length > 0
+      ? fields.filter((field) => keys.includes(field.prop))
+      : fields;
+  filterArr.forEach((field) => field.clearValidate());
 };
 
 const validate = async () => {
@@ -54,7 +71,9 @@ provide(formContextKey, {
 
 defineExpose<FormInstance>({
   validate,
-})
+  resetFields,
+  clearValidate,
+});
 </script>
 
 <style scoped></style>
