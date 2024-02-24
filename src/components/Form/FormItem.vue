@@ -5,6 +5,7 @@
       'is-error': validateStatus.state == 'error',
       'is-success': validateStatus.state == 'success',
       'is-loading': validateStatus.loading,
+      'is-required':isRequired
     }"
   >
     <lebel class="dra-form-item__label">
@@ -20,7 +21,6 @@
       </div>
     </div>
   </div>
-  {{ innerValue }} - {{ itemRules }}
 </template>
 
 <script setup lang="ts">
@@ -54,7 +54,11 @@ const validateStatus = reactive({
   loading: false,
 });
 
-let initialValue = null;
+let initialValue: any = null;
+
+const isRequired = computed(() => {
+  return itemRules.value.some((rule) => rule.required);
+});
 
 const innerValue = computed(() => {
   const model = formContext?.model;
@@ -124,19 +128,19 @@ const validate = (trigger?: string) => {
   }
 };
 
-const clearValidate = () =>{
+const clearValidate = () => {
   validateStatus.state = "init";
   validateStatus.errorMsg = "";
   validateStatus.loading = false;
-}
+};
 
-const resetField = () =>{
+const resetField = () => {
   clearValidate();
   const model = formContext?.model;
-  if(model && props.prop && !isNil(model[props.prop])){
+  if (model && props.prop && !isNil(model[props.prop])) {
     model[props.prop] = initialValue;
   }
-}
+};
 
 const context: FormItemContext = {
   prop: props.prop || "",

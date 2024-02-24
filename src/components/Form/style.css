@@ -1,0 +1,51 @@
+.dra-form {
+  --dra-form-label-font-size: var(--dra-font-size-base);
+  --dra-form-content-font-size: var(--dra-font-size-base);
+}
+
+.dra-form-item {
+  display: flex;
+  margin-bottom: 18px;
+  .dra-form-item__label {
+    width: 150px;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 12px 0 0;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: flex-end;
+    font-size: var(--dra-form-label-font-size);
+    color: var(--dra-text-color-regular);
+  }
+  .dra-form-item__content {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    line-height: 32px;
+    font-size: var(--dra-form-content-font-size);
+    min-width: 0;
+    align-items: center;
+    position: relative;
+  }
+  .dra-form-item__error-msg {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding-top: 2px;
+    color: var(--dra-color-danger);
+    font-size: 12px;
+    line-height: 1;
+  }
+}
+
+.dra-form-item.is-error .dra-input__wrapper {
+  box-shadow: 0 0 0 1px var(--dra-color-danger) inset;
+}
+.dra-form-item.is-success .dra-input__wrapper {
+  box-shadow: 0 0 0 1px var(--dra-color-success) inset;
+}
+.dra-form-item.is-required > .dra-form-item__label::before{
+    content: '*';
+    color: var(--dra-color-danger);
+    margin-right: 4px;
+}

@@ -14,7 +14,6 @@ import type {
   FormValidateFailure,
 } from "./types";
 import { formContextKey } from "./types";
-import { filter } from "lodash-es";
 defineOptions({
   name: "DraForm",
 });
