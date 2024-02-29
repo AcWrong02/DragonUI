@@ -123,7 +123,7 @@ const _ref = computed(() => input.value || textarea.value);
 
 const formItemContext = inject(formItemContextKey);
 const runValidation = (trigger?: string) => {
-  formItemContext?.validate(trigger).catch(e=>{ console.log("runValidation error：", e) });
+  formItemContext?.validate(trigger).catch(e=>{ console.log(e.errors) });
 };
 
 const handlePasswordVisible = () => {

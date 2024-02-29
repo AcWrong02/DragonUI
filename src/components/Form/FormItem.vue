@@ -5,7 +5,7 @@
       'is-error': validateStatus.state == 'error',
       'is-success': validateStatus.state == 'success',
       'is-loading': validateStatus.loading,
-      'is-required':isRequired
+      'is-required': isRequired,
     }"
   >
     <lebel class="dra-form-item__label">
@@ -29,6 +29,8 @@ import type {
   FormItemProps,
   FormValidateFailure,
   FormItemContext,
+  ValidateStatusProp,
+  FormItemInstance
 } from "./types";
 import { formContextKey, formItemContextKey } from "./types";
 import {
@@ -48,7 +50,7 @@ const props = defineProps<FormItemProps>();
 
 const formContext = inject(formContextKey);
 
-const validateStatus = reactive({
+const validateStatus: ValidateStatusProp = reactive({
   state: "init",
   errorMsg: "",
   loading: false,
@@ -93,7 +95,7 @@ const getTriggerRules = (trigger?: string) => {
   }
 };
 
-const validate = (trigger?: string) => {
+const validate = async (trigger?: string) => {
   const modelName = props.prop;
 
   //
@@ -160,6 +162,13 @@ onMounted(() => {
 onUnmounted(() => {
   formContext?.removeField(context);
 });
+
+defineExpose<FormItemInstance>({
+  validateStatus,
+  validate,
+  resetField,
+  clearValidate,
+})
 </script>
 
 <style scoped></style>
