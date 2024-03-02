@@ -98,6 +98,5 @@ useEventListener(document, "keydown", keydown);
 defineExpose({
   bottomOffset,
   visiable,
-  
 });
 </script>
