@@ -9,27 +9,27 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: '组件', link: '/components/button' }
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: 'Basic基础组件',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      },
-      {
-        text: 'Basic',
-        items: [
-          { text: 'Button', link: '/components/button' },
+          { text: 'Button 按钮', link: '/components/button' },
         ]
       },
       {
         text: 'Form表单组件',
         items: [
-          { text: 'Input', link: '/components/input' },
+          { text: 'Input 输入框', link: '/components/input' },
+        ]
+      },
+      {
+        text: 'Feedback反馈组件',
+        items:[
+          { text: 'Message 消息提示', link: '/components/message' },
+          { text: 'Tooltip 文字提示', link: '/components/tooltip' },
         ]
       }
     ],
